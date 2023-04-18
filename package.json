@@ -1,10 +1,10 @@
 {
-  "name": "wtodo-today-electron",
+  "name": "wtodotoday",
   "version": "1.0.0",
-  "description": "An Electron application with React and TypeScript",
+  "description": "Una aplicación de Electron con React y TypeScript",
   "main": "./out/main/index.js",
-  "author": "example.com",
-  "homepage": "https://www.electronjs.org",
+  "author": "Raian Pestana",
+  "homepage": "https://github.com/raianpestana/wtodotoday-electron",
   "scripts": {
     "format": "prettier --write .",
     "lint": "eslint . --ext .js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix",
