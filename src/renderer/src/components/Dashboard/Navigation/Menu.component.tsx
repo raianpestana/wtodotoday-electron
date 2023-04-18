@@ -15,12 +15,19 @@ import { useGlobalStyle } from '../../../hooks/useGlobalStyle.hook'
 type MenuComponentType = {
   className: string
   icon: JSX.Element
+  iconColor: string
   span: string
+  fontColor: string
   to: string
 }
 
 type IconDivType = {
   size: number
+  iconColor: string
+}
+
+type SpanDivType = {
+  fontColor: string
 }
 
 /* | - Menu Component - | */
@@ -38,7 +45,9 @@ export const MenuComponent: React.FC<MenuComponentType> = (prop): JSX.Element =>
         to={prop.to}
         style={{ borderRadius: CSS.nav.isOnlyIcons ? '50%' : '8px' }}
       >
-        <IconDiv size={CSS.nav.button.size}>{prop.icon}</IconDiv>
+        <IconDiv size={CSS.nav.button.size} iconColor={prop.iconColor}>
+          {prop.icon}
+        </IconDiv>
       </ButtonLink>
     )
 
@@ -49,8 +58,10 @@ export const MenuComponent: React.FC<MenuComponentType> = (prop): JSX.Element =>
       to={prop.to}
       style={{ borderRadius: CSS.nav.isOnlyIcons ? '50%' : '8px' }}
     >
-      <IconDiv size={CSS.nav.button.size}>{prop.icon}</IconDiv>
-      <SpanDiv>
+      <IconDiv size={CSS.nav.button.size} iconColor={prop.iconColor}>
+        {prop.icon}
+      </IconDiv>
+      <SpanDiv fontColor={prop.fontColor}>
         <Typography sx={{ fontSize: `${CSS.nav.button.size - 6}px`, fontWeight: '400' }}>
           {prop.span}
         </Typography>
@@ -69,6 +80,7 @@ const IconDiv = styled.div<IconDivType>`
   svg {
     width: ${(p): string => `${p.size}px`};
     height: ${(p): string => `${p.size}px`};
+    fill: ${(p): string => p.iconColor};
   }
 `
 
@@ -87,36 +99,32 @@ const ButtonLink = styled(NavLink)`
   border-radius: 8px;
   text-decoration: none;
   text-transform: none;
-  color: rgb(255, 255, 255, 0.5);
-
-  svg {
-    fill: rgb(255, 255, 255, 0.5);
-  }
+  opacity: 0.5;
 
   &.isActive {
     pointer-events: none;
-    background-color: rgba(255, 255, 255, 0.07);
-    color: rgb(255, 255, 255, 0.7);
-    svg: {
-      fill: rgb(255, 255, 255, 0.9);
-    }
+    background-color: rgba(255, 255, 255, 0.08);
+    opacity: 0.8;
   }
 
-  :hover,
   :focus {
-    background-color: rgba(255, 255, 255, 0.05);
-    color: rgb(255, 255, 255, 0.7);
+    background-color: rgba(255, 255, 255, 0.08);
     outline: none;
-    svg: {
-      fill: rgb(255, 255, 255, 0.8);
-    }
+    opacity: 0.8;
+  }
+
+  :hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    outline: none;
+    opacity: 0.7;
   }
 `
 
 /* SpanDiv */
-const SpanDiv = styled.div`
+const SpanDiv = styled.div<SpanDivType>`
   margin-top: auto;
   margin-bottom: auto;
   padding-top: 2px;
   overflow: hidden;
+  color: ${(p): string => p.fontColor};
 `

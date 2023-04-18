@@ -89,7 +89,7 @@ export const editDirectoryController = async (
     /* - Consts - */
     const { id } = req.account
     const { idD } = req.params
-    const { name, icon, description, information } = req.body.data
+    const { name, icon, iconColor, fontColor, description, information } = req.body.data
 
     /* - Already Exist - */
     const directory = await DirectoryEntity.findOne({
@@ -103,6 +103,14 @@ export const editDirectoryController = async (
 
     if (icon !== null) {
       directory.icon = icon
+    }
+
+    if (iconColor !== null) {
+      directory.iconColor = iconColor
+    }
+
+    if (fontColor !== null) {
+      directory.fontColor = fontColor
     }
 
     if (description !== null) {

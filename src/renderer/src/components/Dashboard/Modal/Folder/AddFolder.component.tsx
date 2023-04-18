@@ -50,7 +50,7 @@ export const AddFolderComponent: React.FC<AddFolderComponentType> = (prop): JSX.
     setFocus,
     register,
     handleSubmit,
-    formState: { errors, isSubmitting, isValid }
+    formState: { errors, isSubmitting }
   } = useForm<AddFolderType>({
     resolver: zodResolver(AddFolderSchema)
   })
@@ -123,7 +123,7 @@ export const AddFolderComponent: React.FC<AddFolderComponentType> = (prop): JSX.
             <Button onClick={prop.handleClose} color="error" variant="outlined" type="button">
               {'Cancelar'}
             </Button>
-            <Button sx={sxButton} type="submit" disabled={!isValid || isSubmitting ? true : false}>
+            <Button sx={sxButton} type="submit" disabled={isSubmitting ? true : false}>
               {isSubmitting ? 'Creando...' : 'Crear carpeta'}
             </Button>
           </GroupButtons>

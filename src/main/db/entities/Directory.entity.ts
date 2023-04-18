@@ -35,6 +35,12 @@ export class DirectoryEntity extends BaseEntity {
   @Column({ default: 'Predeterminado' })
   icon: string
 
+  @Column({ default: '#ffffff' })
+  iconColor: string
+
+  @Column({ default: '#ffffff' })
+  fontColor: string
+
   @CreateDateColumn()
   createdDate: Date
 

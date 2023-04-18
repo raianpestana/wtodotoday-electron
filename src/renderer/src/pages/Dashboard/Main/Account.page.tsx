@@ -21,6 +21,10 @@ import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined'
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline'
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined'
+
+import { DeleteAccountComponent } from '../../../components/Dashboard/Modal/Account/DeleteAccount.component'
+import { EditAccountComponent } from '../../../components/Dashboard/Modal/Account/EditAccount.component'
 
 /* - Hooks - */
 import { useProfile } from '../../../hooks/useProfile.hook'
@@ -29,6 +33,7 @@ import { useGlobalStyle } from '../../../hooks/useGlobalStyle.hook'
 /* - React - */
 import { NavLink } from 'react-router-dom'
 import { SxProps } from '@mui/material'
+import { useState } from 'react'
 
 /* - Types - */
 type IconDivType = {
@@ -41,6 +46,25 @@ export const AccountPage: React.FC = (): JSX.Element => {
   /* - Hooks - */
   const { CSS } = useGlobalStyle()
   const { profile, getDateString } = useProfile()
+  const [openDelete, setOpenDelete] = useState(false)
+  const [openEdit, setOpenEdit] = useState(false)
+
+  /* - Handle - */
+  /* handleClickOpenDelete */
+  const handleClickOpenDelete = (): void => {
+    setOpenDelete(true)
+  }
+
+  /* handleClickOpenEdit */
+  const handleClickOpenEdit = (): void => {
+    setOpenEdit(true)
+  }
+
+  /* handleClose */
+  const handleClose = (): void => {
+    setOpenDelete(false)
+    setOpenEdit(false)
+  }
 
   /* - Return - */
   return (
@@ -74,13 +98,24 @@ export const AccountPage: React.FC = (): JSX.Element => {
         </Breadcrumbs>
         <InfTopButtonsStyled>
           {/* edit */}
-          <Tooltip title="Editar directorio" TransitionComponent={Zoom} placement="bottom">
-            <IconButton sx={sxIconButton}>
+          <Tooltip title="Editar cuenta" TransitionComponent={Zoom} placement="bottom">
+            <IconButton sx={sxIconButton} onClick={handleClickOpenEdit}>
               <IconDiv size={CSS.nav.button.size}>
                 <DriveFileRenameOutlineIcon />
               </IconDiv>
             </IconButton>
           </Tooltip>
+          <EditAccountComponent open={openEdit} handleClose={handleClose} />
+
+          {/* delete */}
+          <Tooltip title="Eliminar directorio" TransitionComponent={Zoom} placement="bottom">
+            <IconButton onClick={handleClickOpenDelete} sx={sxIconButton}>
+              <IconDiv size={CSS.nav.button.size}>
+                <DeleteOutlineOutlinedIcon />
+              </IconDiv>
+            </IconButton>
+          </Tooltip>
+          <DeleteAccountComponent open={openDelete} handleClose={handleClose} />
         </InfTopButtonsStyled>
       </InfTopStyled>
       <Card variant="outlined">

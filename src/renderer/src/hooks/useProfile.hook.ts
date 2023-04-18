@@ -11,6 +11,8 @@ export type DirectoryProfileType = {
   description: string
   information: string
   icon: DynamicIconType
+  iconColor: string
+  fontColor: string
   createdDate: Date
   updatedAt: Date
   folders: FolderProfileType[]
@@ -22,6 +24,8 @@ export type FolderProfileType = {
   description: string
   information: string
   icon: DynamicIconType
+  iconColor: string
+  fontColor: string
   createdDate: Date
   updatedAt: Date
   lists: ListProfileType[]
@@ -32,13 +36,17 @@ export type ListProfileType = {
   name: string
   description: string
   icon: DynamicIconType
+  iconColor: string
+  fontColor: string
+  elevation: number
+  ranking: number
   information: string
   state: string
   createdDate: Date
   updatedAt: Date
 }
 
-type ProfileType = {
+export type ProfileType = {
   id: number
   username: string
   email: string
@@ -59,6 +67,7 @@ type UseProfileType = {
   stats: StatsType
 
   setProfile: (value: ProfileType, stats: StatsType) => void
+  editProfile: (value: string) => void
 
   deleteDirectory: (idD: string | undefined) => void
   editDirectory: (idD: string | undefined, value: DirectoryProfileType) => void
@@ -76,19 +85,25 @@ type UseProfileType = {
   getListId: (idD: string | undefined, idF: string | undefined, idL: string | undefined) => number
 
   getDateString: (date: Date) => string
+
+  voidProfile: () => void
 }
 
 /* | - use Profile - | */
+const initialState: ProfileType = {
+  id: 0,
+  username: '',
+  email: '',
+  fullname: '',
+  createdDate: new Date(),
+  updatedAt: new Date(),
+  directories: []
+}
+
 /* - useProfile - */
 export const useProfile = create<UseProfileType>((set, get) => ({
   profile: {
-    id: 0,
-    username: '',
-    email: '',
-    fullname: '',
-    createdDate: new Date(),
-    updatedAt: new Date(),
-    directories: []
+    ...initialState
   },
 
   stats: {
@@ -97,10 +112,25 @@ export const useProfile = create<UseProfileType>((set, get) => ({
     lists: 0
   },
 
+  voidProfile: (): void => {
+    set(() => ({
+      profile: initialState
+    }))
+  },
+
   setProfile: (value, stats): void => {
     set(() => ({
       profile: value,
       stats: stats
+    }))
+  },
+
+  editProfile: (value): void => {
+    set((state) => ({
+      profile: {
+        ...state.profile,
+        email: value
+      }
     }))
   },
 
@@ -123,6 +153,14 @@ export const useProfile = create<UseProfileType>((set, get) => ({
 
       if (value.icon !== undefined) {
         get().profile.directories[indexD].icon = value.icon
+      }
+
+      if (value.iconColor !== undefined) {
+        get().profile.directories[indexD].iconColor = value.iconColor
+      }
+
+      if (value.fontColor !== undefined) {
+        get().profile.directories[indexD].fontColor = value.fontColor
       }
 
       if (value.information !== undefined) {
@@ -186,6 +224,14 @@ export const useProfile = create<UseProfileType>((set, get) => ({
         get().profile.directories[indexD].folders[indexF].icon = value.icon
       }
 
+      if (value.iconColor !== undefined) {
+        get().profile.directories[indexD].folders[indexF].iconColor = value.iconColor
+      }
+
+      if (value.fontColor !== undefined) {
+        get().profile.directories[indexD].folders[indexF].fontColor = value.fontColor
+      }
+
       if (value.information !== undefined) {
         get().profile.directories[indexD].folders[indexF].information = value.information
       }
@@ -243,6 +289,14 @@ export const useProfile = create<UseProfileType>((set, get) => ({
         get().profile.directories[indexD].folders[indexF].lists[indexL].icon = value.icon
       }
 
+      if (value.iconColor !== undefined) {
+        get().profile.directories[indexD].folders[indexF].lists[indexL].iconColor = value.iconColor
+      }
+
+      if (value.fontColor !== undefined) {
+        get().profile.directories[indexD].folders[indexF].lists[indexL].fontColor = value.fontColor
+      }
+
       if (value.information !== undefined) {
         get().profile.directories[indexD].folders[indexF].lists[indexL].information =
           value.information
@@ -252,8 +306,16 @@ export const useProfile = create<UseProfileType>((set, get) => ({
         get().profile.directories[indexD].folders[indexF].lists[indexL].name = value.name
       }
 
+      if (value.elevation !== undefined) {
+        get().profile.directories[indexD].folders[indexF].lists[indexL].elevation = value.elevation
+      }
+
       if (value.state !== undefined) {
         get().profile.directories[indexD].folders[indexF].lists[indexL].state = value.state
+      }
+
+      if (value.ranking !== undefined) {
+        get().profile.directories[indexD].folders[indexF].lists[indexL].ranking = value.ranking
       }
 
       return {}

@@ -92,7 +92,7 @@ export const editFolderController = async (
     /* - Consts - */
     const { id } = req.account
     const { idD, idF } = req.params
-    const { name, icon, description, information } = req.body.data
+    const { name, icon, iconColor, fontColor, description, information } = req.body.data
 
     /* - Already Exist - */
     const folder = await FolderEntity.findOne({
@@ -109,6 +109,14 @@ export const editFolderController = async (
 
     if (icon !== null) {
       folder.icon = icon
+    }
+
+    if (iconColor !== null) {
+      folder.iconColor = iconColor
+    }
+
+    if (fontColor !== null) {
+      folder.fontColor = fontColor
     }
 
     if (description !== null) {

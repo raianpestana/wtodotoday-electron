@@ -6,6 +6,7 @@ import express, { Express } from 'express'
 import { createServer, Server } from 'http'
 
 /* - Routers - */
+/* Account */ import { addAccountRouter } from '../routers/Account.router'
 /* Auth */ import { addAuthRouter } from '../routers/Auth.router'
 /* Directory */ import { addDirectoryRouter } from '../routers/Directory.router'
 /* Folder */ import { addFolderRouter } from '../routers/Folder.router'
@@ -33,6 +34,7 @@ app.use(express.json())
 const pathRouter = '/api'
 
 /* - Add routers - */
+/* Account */ app.use(pathRouter, addAccountRouter)
 /* Auth */ app.use(pathRouter, addAuthRouter)
 /* Directory */ app.use(pathRouter, addDirectoryRouter)
 /* Folder */ app.use(pathRouter, addFolderRouter)

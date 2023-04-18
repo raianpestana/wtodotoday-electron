@@ -37,9 +37,10 @@ export const handleAuthRegisterController = async (
       where: { email: email }
     })
 
-    if (usernameAlreadyExist) return res.status(409).send({ status: 'error' })
+    if (usernameAlreadyExist)
+      return res.status(409).send({ message: 'El nombre de usuario ingresado ya existe' })
 
-    if (emailAlreadyExist) return res.status(409).send({ status: 'error' })
+    if (emailAlreadyExist) return res.status(409).send({ message: 'El correo ingresado ya existe' })
 
     /* - Before create - */
     /* - Hash password - */
@@ -170,83 +171,6 @@ export const handleAuthProfileController = async (
     return res.json({ status: 'success', account, stats })
 
     /* error */
-  } catch (error) {
-    console.log(error)
-  }
-}
-
-/* - delete Auth Account Controller - */
-export const deleteAuthAccountController = async (
-  req: Request,
-  res: Response
-): Promise<void | Response> => {
-  try {
-    /* - Consts - */
-    const { id } = req.account
-
-    /* - Already Exist - */
-    const account = await AccountEntity.findOne({
-      where: { id: parseInt(id) },
-      select: { id: true }
-    })
-
-    if (account === null) return res.status(409).send({ status: 'error' })
-
-    /* - DB delete - */
-    await AppDataSource.createQueryBuilder()
-      .delete()
-      .from(AccountEntity)
-      .where('id = :id', { id: parseInt(id) })
-      .execute()
-
-    /* - Return - */
-    return res.status(200).send({ status: 'success' })
-
-    /* error */
-  } catch (error) {
-    console.log(error)
-  }
-}
-
-/* - put Auth Account Controller - */
-export const putAuthAccountController = async (
-  req: Request,
-  res: Response
-): Promise<void | Response> => {
-  try {
-    /* - Consts - */
-    const { id } = req.account
-    const { fullname, password, email } = req.body
-
-    /* - Already Exist - */
-    const account = await AccountEntity.findOne({
-      where: { id: parseInt(id) }
-    })
-
-    if (account === null) return res.status(409).send({ status: 'error' })
-
-    /* - DB put - */
-    if (fullname !== null) {
-      account.fullname = fullname
-    }
-
-    if (password !== null) {
-      const saltOrRounds = 9
-      const passwordHash = await hash(password, saltOrRounds)
-      account.password = passwordHash
-    }
-
-    if (email !== null) {
-      account.email = email
-    }
-
-    /* save */
-    account.save()
-
-    /* - Return - */
-    return res.status(200).send({ status: 'success' })
-
-    /* - Error - */
   } catch (error) {
     console.log(error)
   }

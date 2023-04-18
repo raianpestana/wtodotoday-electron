@@ -56,7 +56,7 @@ export const AddListComponent: React.FC<AddListComponentType> = (prop): JSX.Elem
     setFocus,
     register,
     handleSubmit,
-    formState: { errors, isSubmitting, isValid }
+    formState: { errors, isSubmitting }
   } = useForm<AddListType>({
     resolver: zodResolver(AddListSchema)
   })
@@ -146,7 +146,7 @@ export const AddListComponent: React.FC<AddListComponentType> = (prop): JSX.Elem
             <Button onClick={prop.handleClose} color="error" variant="outlined" type="button">
               {'Cancelar'}
             </Button>
-            <Button sx={sxButton} type="submit" disabled={!isValid || isSubmitting ? true : false}>
+            <Button sx={sxButton} type="submit" disabled={isSubmitting ? true : false}>
               {isSubmitting ? 'Creando...' : 'Crear Lista'}
             </Button>
           </GroupButtons>

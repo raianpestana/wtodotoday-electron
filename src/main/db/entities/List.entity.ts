@@ -33,8 +33,20 @@ export class ListEntity extends BaseEntity {
   @Column({ default: 'Predeterminado' })
   icon: string
 
-  @Column({ default: 'Pendiente' })
+  @Column({ default: '#ffffff' })
+  iconColor: string
+
+  @Column({ default: '#ffffff' })
+  fontColor: string
+
+  @Column({ default: 'Predeterminado' })
   state: string
+
+  @Column({ default: 0 })
+  elevation: number
+
+  @Column({ default: 0 })
+  ranking: number
 
   @CreateDateColumn()
   createdDate: Date

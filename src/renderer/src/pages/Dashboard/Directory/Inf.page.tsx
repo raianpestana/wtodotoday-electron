@@ -39,6 +39,10 @@ type IconDivType = {
   size: number
 }
 
+type StatsNameStyledType = {
+  iconColor: string
+}
+
 /* | - Inf Page - | */
 /* InfPage */
 export const InfPage: React.FC = (): JSX.Element => {
@@ -82,7 +86,7 @@ export const InfPage: React.FC = (): JSX.Element => {
           </Link>
           <Link underline="none" sx={{ display: 'flex', alignItems: 'center' }} color="inherit">
             <NumbersOutlinedIcon sx={{ mr: 0.5 }} fontSize="inherit" />
-            {idD}
+            {profile.directories[getDirectoryId(idD)].name}
           </Link>
           <Typography sx={{ display: 'flex', alignItems: 'center' }} color="text.primary">
             <InfoOutlinedIcon sx={{ mr: 0.5 }} fontSize="inherit" />
@@ -124,12 +128,12 @@ export const InfPage: React.FC = (): JSX.Element => {
             </Typography>
           </StatsDateStyled>
 
-          <StatsNameStyled>
+          <StatsNameStyled iconColor={profile.directories[getDirectoryId(idD)].iconColor}>
             <DynamicIconComponent icon={profile.directories[getDirectoryId(idD)].icon} />
             <Typography
               variant="h5"
-              sx={{ mb: 0.3, marginTop: '4px' }}
-              color="rgba(255, 255, 255, 0.7)"
+              sx={{ mb: 0.3, marginTop: '4px', opacity: 0.8 }}
+              color={profile.directories[getDirectoryId(idD)].fontColor}
             >
               {profile.directories[getDirectoryId(idD)].name}
             </Typography>
@@ -141,7 +145,11 @@ export const InfPage: React.FC = (): JSX.Element => {
             </Typography>
           )}
           {profile.directories[getDirectoryId(idD)].information && (
-            <Typography variant="body1" color="rgba(255, 255, 255, 0.5)">
+            <Typography
+              variant="body1"
+              color="rgba(255, 255, 255, 0.5)"
+              sx={{ whiteSpace: 'pre-line' }}
+            >
               {profile.directories[getDirectoryId(idD)].information}
             </Typography>
           )}
@@ -184,12 +192,15 @@ const StatsDateStyled = styled.div`
   column-gap: 8px;
 `
 
-const StatsNameStyled = styled.div`
+const StatsNameStyled = styled.div<StatsNameStyledType>`
   display: flex;
   flex-direction: row;
   align-items: center;
   column-gap: 8px;
-  color: rgba(255, 255, 255, 0.7);
+  svg {
+    fill: ${(p): string => p.iconColor};
+    opacity: 0.8;
+  }
 `
 
 /* IconDiv */

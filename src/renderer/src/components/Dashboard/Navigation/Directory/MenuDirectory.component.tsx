@@ -27,7 +27,9 @@ export const MenuDirectoryComponent: React.FC = (): JSX.Element => {
         className={pathname.includes('/dashboard/main') ? 'isActive' : ''}
         to={'/dashboard/main/inf'}
         icon={<DynamicIconComponent icon="Casa" />}
+        iconColor="#fff"
         span="Principal"
+        fontColor="#fff"
       />
       <Divider variant="fullWidth" />
       {profile.directories.length <= 0 && (
@@ -42,7 +44,9 @@ export const MenuDirectoryComponent: React.FC = (): JSX.Element => {
             key={'idD' + link.id}
             to={'/dashboard/directory/' + link.id + '/inf'}
             icon={<DynamicIconComponent icon={link.icon} />}
+            iconColor={link.iconColor}
             span={link.name}
+            fontColor={link.fontColor}
           />
         ))}
     </>

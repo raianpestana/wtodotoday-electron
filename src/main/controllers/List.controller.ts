@@ -106,7 +106,17 @@ export const editListController = async (req: Request, res: Response): Promise<v
     /* - Consts - */
     const { id } = req.account
     const { idD, idF, idL } = req.params
-    const { name, description, information, state, icon } = req.body.data
+    const {
+      name,
+      description,
+      information,
+      state,
+      icon,
+      iconColor,
+      fontColor,
+      elevation,
+      ranking
+    } = req.body.data
 
     /* - Already Exist - */
     const list = await ListEntity.findOne({
@@ -126,6 +136,18 @@ export const editListController = async (req: Request, res: Response): Promise<v
       list.icon = icon
     }
 
+    if (iconColor !== null) {
+      list.iconColor = iconColor
+    }
+
+    if (fontColor !== null) {
+      list.fontColor = fontColor
+    }
+
+    if (elevation !== null) {
+      list.elevation = elevation
+    }
+
     if (description !== null) {
       list.description = description
     }
@@ -136,6 +158,10 @@ export const editListController = async (req: Request, res: Response): Promise<v
 
     if (state !== null) {
       list.state = state
+    }
+
+    if (ranking !== null) {
+      list.ranking = ranking
     }
 
     list.name = name

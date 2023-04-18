@@ -39,6 +39,8 @@ type EditFolderComponentType = {
 type EditFolderType = {
   name: string
   icon: string
+  iconColor: string
+  fontColor: string
   description: string
   information: string
 }
@@ -121,6 +123,7 @@ export const EditFolderComponent: React.FC<EditFolderComponentType> = (prop): JS
             /* Reack hook form */
             {...register('name')}
           />
+
           <Autocomplete
             disablePortal
             value={profile.directories[getDirectoryId(idD)].folders[getFolderId(idD, idF)].icon}
@@ -129,6 +132,37 @@ export const EditFolderComponent: React.FC<EditFolderComponentType> = (prop): JS
               <TextField {...params} sx={sxInput} label="Icono" required {...register('icon')} />
             )}
           />
+
+          <TextField
+            error={errors.iconColor ? true : false}
+            label="Color del icono"
+            type="color"
+            fullWidth
+            variant="outlined"
+            defaultValue={
+              profile.directories[getDirectoryId(idD)].folders[getFolderId(idD, idF)].iconColor
+            }
+            helperText={errors.iconColor?.message}
+            sx={sxInput}
+            /* Reack hook form */
+            {...register('iconColor')}
+          />
+
+          <TextField
+            error={errors.fontColor ? true : false}
+            label="Color del texto"
+            type="color"
+            fullWidth
+            variant="outlined"
+            defaultValue={
+              profile.directories[getDirectoryId(idD)].folders[getFolderId(idD, idF)].fontColor
+            }
+            helperText={errors.fontColor?.message}
+            sx={sxInput}
+            /* Reack hook form */
+            {...register('fontColor')}
+          />
+
           <TextField
             error={errors.description ? true : false}
             label="Descripción"
@@ -143,6 +177,7 @@ export const EditFolderComponent: React.FC<EditFolderComponentType> = (prop): JS
             /* Reack hook form */
             {...register('description')}
           />
+
           <TextField
             error={errors.information ? true : false}
             label="Información"

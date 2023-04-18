@@ -39,6 +39,8 @@ type EditDirectoryComponentType = {
 type EditDirectoryType = {
   name: string
   icon: string
+  iconColor: string
+  fontColor: string
   description: string
   information: string
 }
@@ -124,6 +126,33 @@ export const EditDirectoryComponent: React.FC<EditDirectoryComponentType> = (pro
               <TextField {...params} sx={sxInput} label="Icono" required {...register('icon')} />
             )}
           />
+
+          <TextField
+            error={errors.iconColor ? true : false}
+            label="Color del icono"
+            type="color"
+            fullWidth
+            variant="outlined"
+            defaultValue={profile.directories[getDirectoryId(idD)].iconColor}
+            helperText={errors.iconColor?.message}
+            sx={sxInput}
+            /* Reack hook form */
+            {...register('iconColor')}
+          />
+
+          <TextField
+            error={errors.fontColor ? true : false}
+            label="Color del texto"
+            type="color"
+            fullWidth
+            variant="outlined"
+            defaultValue={profile.directories[getDirectoryId(idD)].fontColor}
+            helperText={errors.fontColor?.message}
+            sx={sxInput}
+            /* Reack hook form */
+            {...register('fontColor')}
+          />
+
           <TextField
             error={errors.description ? true : false}
             label="Descripción"

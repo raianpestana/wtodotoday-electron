@@ -9,9 +9,7 @@ import { Navigate, RouteObject } from 'react-router-dom'
 /* - Main - */
 /* About */ import { AboutPage } from '../pages/Dashboard/Main/About.page'
 /* Account */ import { AccountPage } from '../pages/Dashboard/Main/Account.page'
-/* Design */ import { DesignPage } from '../pages/Dashboard/Main/Design.page'
 /* Inf */ import { InfPage } from '../pages/Dashboard/Main/Inf.page'
-/* Settings */ import { SettingsPage } from '../pages/Dashboard/Main/Settings.page'
 /* Thanks */ import { ThanksPage } from '../pages/Dashboard/Main/Thanks.page'
 /* Update */ import { UpdatePage } from '../pages/Dashboard/Main/Update.page'
 
@@ -45,18 +43,8 @@ export const DashboardRoutes: RouteObject = {
     },
 
     {
-      element: <DesignPage />,
-      path: '/dashboard/main/design'
-    },
-
-    {
       element: <InfPage />,
       path: '/dashboard/main/inf'
-    },
-
-    {
-      element: <SettingsPage />,
-      path: '/dashboard/main/settings'
     },
 
     {
@@ -66,7 +54,7 @@ export const DashboardRoutes: RouteObject = {
 
     {
       element: <UpdatePage />,
-      path: '/dashboard/main/updates'
+      path: '/dashboard/main/update'
     },
 
     /* - Directory - */

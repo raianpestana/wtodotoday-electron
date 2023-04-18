@@ -47,7 +47,7 @@ export const AddDirectoryComponent: React.FC<AddDirectoryComponentType> = (prop)
     setFocus,
     register,
     handleSubmit,
-    formState: { errors, isSubmitting, isValid }
+    formState: { errors, isSubmitting }
   } = useForm<AddDirectoryType>({
     resolver: zodResolver(AddDirectorySchema)
   })
@@ -111,7 +111,7 @@ export const AddDirectoryComponent: React.FC<AddDirectoryComponentType> = (prop)
             <Button onClick={prop.handleClose} color="error" variant="outlined" type="button">
               {'Cancelar'}
             </Button>
-            <Button sx={sxButton} type="submit" disabled={!isValid || isSubmitting ? true : false}>
+            <Button sx={sxButton} type="submit" disabled={isSubmitting ? true : false}>
               {isSubmitting ? 'Creando...' : 'Crear directorio'}
             </Button>
           </GroupButtons>

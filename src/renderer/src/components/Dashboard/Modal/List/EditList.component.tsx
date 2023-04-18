@@ -12,13 +12,18 @@ import DialogTitle from '@mui/material/DialogTitle'
 import Autocomplete from '@mui/material/Autocomplete'
 import { listDynamicIcon } from '../../DynamicIcon.component'
 import Typography from '@mui/material/Typography'
+import Rating from '@mui/material/Rating'
+import InputLabel from '@mui/material/InputLabel'
+import MenuItem from '@mui/material/MenuItem'
+import FormControl from '@mui/material/FormControl'
+import Select from '@mui/material/Select'
 
 /* - Api - */
 import { AxiosError } from 'axios'
 import { editListApi } from '../../../../api/List.api'
 
 /* - Hooks - */
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useParams } from 'react-router-dom'
 import { useNotification } from '../../../../hooks/useNotification.hook.'
@@ -41,6 +46,10 @@ type EditListComponentType = {
 type EditListType = {
   name: string
   icon: string
+  iconColor: string
+  fontColor: string
+  elevation: number
+  ranking: number
   description: string
   information: string
   state: string
@@ -56,6 +65,9 @@ export const EditListComponent: React.FC<EditListComponentType> = (prop): JSX.El
   const { idD, idF } = useParams()
   const { profile, editList, getDirectoryId, getFolderId, getListId } = useProfile()
   const { setNotification } = useNotification()
+
+  const [ranking, setRanking] = useState(0)
+  const [elevation, setElevation] = useState(0)
 
   /* React hook form with zod */
   const {
@@ -85,6 +97,18 @@ export const EditListComponent: React.FC<EditListComponentType> = (prop): JSX.El
           profile.directories[getDirectoryId(idD)].folders[getFolderId(idD, idF)].lists[
             getListId(idD, idF, prop.idL.toString())
           ].state
+        )
+
+        setRanking(
+          profile.directories[getDirectoryId(idD)].folders[getFolderId(idD, idF)].lists[
+            getListId(idD, idF, prop.idL.toString())
+          ].ranking
+        )
+
+        setElevation(
+          profile.directories[getDirectoryId(idD)].folders[getFolderId(idD, idF)].lists[
+            getListId(idD, idF, prop.idL.toString())
+          ].elevation
         )
         return () => clearTimeout(timer)
       }, 100)
@@ -136,6 +160,7 @@ export const EditListComponent: React.FC<EditListComponentType> = (prop): JSX.El
                   ].name
                 }`}
               </Typography>
+
               <TextField
                 error={errors.name ? true : false}
                 required
@@ -154,10 +179,10 @@ export const EditListComponent: React.FC<EditListComponentType> = (prop): JSX.El
                 /* Reack hook form */
                 {...register('name')}
               />
+
               <Autocomplete
-                id="icon"
                 disablePortal
-                defaultValue={
+                value={
                   profile.directories[getDirectoryId(idD)].folders[getFolderId(idD, idF)].lists[
                     getListId(idD, idF, prop.idL.toString())
                   ].icon
@@ -173,10 +198,44 @@ export const EditListComponent: React.FC<EditListComponentType> = (prop): JSX.El
                   />
                 )}
               />
-              <Autocomplete
-                id="state"
-                disablePortal
+
+              <TextField
+                error={errors.iconColor ? true : false}
+                label="Color del icono"
+                type="color"
+                fullWidth
+                variant="outlined"
                 defaultValue={
+                  profile.directories[getDirectoryId(idD)].folders[getFolderId(idD, idF)].lists[
+                    getListId(idD, idF, prop.idL.toString())
+                  ].iconColor
+                }
+                helperText={errors.iconColor?.message}
+                sx={sxInput}
+                /* Reack hook form */
+                {...register('iconColor')}
+              />
+
+              <TextField
+                error={errors.fontColor ? true : false}
+                label="Color del texto"
+                type="color"
+                fullWidth
+                variant="outlined"
+                defaultValue={
+                  profile.directories[getDirectoryId(idD)].folders[getFolderId(idD, idF)].lists[
+                    getListId(idD, idF, prop.idL.toString())
+                  ].fontColor
+                }
+                helperText={errors.fontColor?.message}
+                sx={sxInput}
+                /* Reack hook form */
+                {...register('fontColor')}
+              />
+
+              <Autocomplete
+                disablePortal
+                value={
                   profile.directories[getDirectoryId(idD)].folders[getFolderId(idD, idF)].lists[
                     getListId(idD, idF, prop.idL.toString())
                   ].state
@@ -192,6 +251,34 @@ export const EditListComponent: React.FC<EditListComponentType> = (prop): JSX.El
                   />
                 )}
               />
+
+              <FormControl fullWidth>
+                <InputLabel id="simple-select-label" sx={sxLabel}>
+                  Prioridad
+                </InputLabel>
+                <Select
+                  labelId="simple-select-label"
+                  id="simple-select"
+                  label="Elevation"
+                  value={`${elevation}`}
+                  onChange={(event, value): void => {
+                    if (value !== null) {
+                      setElevation(parseInt(event.target.value))
+                      setValue('elevation', parseInt(event.target.value))
+                    }
+                  }}
+                  sx={sxSelect}
+                >
+                  <MenuItem value={0}>Ninguna</MenuItem>
+                  <MenuItem value={1}>Muy Baja</MenuItem>
+                  <MenuItem value={4}>Baja</MenuItem>
+                  <MenuItem value={8}>Normal</MenuItem>
+                  <MenuItem value={12}>Alta</MenuItem>
+                  <MenuItem value={16}>Muy Alta</MenuItem>
+                </Select>
+              </FormControl>
+              <input type="hidden" value={elevation} {...register('elevation')} />
+
               <TextField
                 error={errors.description ? true : false}
                 label="Descripción"
@@ -227,6 +314,27 @@ export const EditListComponent: React.FC<EditListComponentType> = (prop): JSX.El
                 /* Reack hook form */
                 {...register('information')}
               />
+
+              <RankDiv>
+                <Typography variant="body1" color="rgba(255, 255, 255, 0.5)">
+                  {'Clasificación: '}
+                </Typography>
+                <Rating
+                  name="half-rating"
+                  value={ranking}
+                  precision={0.1}
+                  onChange={(_event, value): void => {
+                    if (value !== null) {
+                      setRanking(value)
+                      setValue('ranking', value)
+                    }
+                  }}
+                />
+                <Typography variant="body1" color="rgba(255, 255, 255, 0.9)">
+                  {`${ranking}/5`}
+                </Typography>
+              </RankDiv>
+              <input type="hidden" value={ranking} {...register('ranking')} />
 
               <GroupButtons>
                 <Button onClick={prop.handleClose} color="error" variant="outlined" type="button">
@@ -288,6 +396,26 @@ const sxButton: SxProps = {
   }
 }
 
+const sxLabel: SxProps = {
+  '&.Mui-focused': {
+    color: 'rgba(255, 255, 255, 0.9)'
+  }
+}
+
+const sxSelect: SxProps = {
+  '&.MuiOutlinedInput-root': {
+    '& fieldset': {
+      borderColor: 'rgba(255, 255, 255, 0.5)'
+    },
+    '&:hover fieldset': {
+      borderColor: 'rgba(255, 255, 255, 0.6)'
+    },
+    '&.Mui-focused fieldset': {
+      borderColor: 'rgba(255, 255, 255, 0.6)'
+    }
+  }
+}
+
 const sxInput: SxProps = {
   '& .MuiInputLabel-root': {
     color: 'rgba(255, 255, 255, 0.5)',
@@ -315,3 +443,20 @@ const sxInput: SxProps = {
     }
   }
 }
+
+const RankDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  column-gap: 8px;
+  height: 3.5rem;
+  padding: 10px;
+  border: 1px solid;
+  border-color: rgba(255, 255, 255, 0.6);
+  border-radius: 4px;
+
+  :active {
+    padding: 9px;
+    border-width: 2px;
+  }
+`
